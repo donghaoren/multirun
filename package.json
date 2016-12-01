@@ -1,0 +1,23 @@
+{
+  "name": "multirun",
+  "version": "1.0.0",
+  "description": "Run multiple processes",
+  "main": "multirun.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "readme": "README.md",
+  "bin": {
+    "multirun": "./multirun.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/donghaoren/multirun.git"
+  },
+  "author": "Donghao Ren <donghao.ren+npm@gmail.com> (https://donghaoren.org/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/donghaoren/multirun/issues"
+  },
+  "homepage": "https://github.com/donghaoren/multirun#readme"
+}
