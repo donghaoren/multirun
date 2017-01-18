@@ -1,6 +1,19 @@
 multirun: Run multiple processes simultaneously
 ====
 
+Install
+----
+
+    npm install multirun
+
+Use with NPM scripts
+----
+
+    multirun-npm npm-script-1 npm-script-2 ...
+
+Use Standalone
+----
+
 To use multirun, first create a config file for your project. Multirun searches for config files in your home directory and the current working directory. Config files are named as `multirun.json` or `.multirun.json`. You can also specify the config file in the command link as `multirun config.json`.
 
 The syntax of the config file is the following:
