@@ -76,6 +76,12 @@ export class ProcessManager {
         this._processes = {};
         this._logger = logger;
 
+        let kill_signal = "SIGHUP";
+        if(process.platform == "win32") {
+            // Windows doesn't support SIGHUP
+            kill_signal = "SIGINT";
+        }
+
         process.on('SIGHUP', () => {
             this._logger.logMessage(this._logger.colorMain("SIGHUP received, broadcasting to processes."));
             for(let name in this._processes) {
