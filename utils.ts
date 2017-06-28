@@ -85,21 +85,21 @@ export class ProcessManager {
         process.on('SIGHUP', () => {
             this._logger.logMessage(this._logger.colorMain("SIGHUP received, broadcasting to processes."));
             for(let name in this._processes) {
-                this._processes[name].p.kill("SIGHUP");
+                this._processes[name].p.kill(kill_signal);
             }
         });
 
         process.on('SIGTERM', () => {
             this._logger.logMessage(this._logger.colorMain("SIGTERM received, broadcasting to processes."));
             for(let name in this._processes) {
-                this._processes[name].p.kill("SIGHUP");
+                this._processes[name].p.kill(kill_signal);
             }
         });
 
         process.on('SIGINT', () => {
             this._logger.logMessage(this._logger.colorMain("SIGINT received, broadcasting to processes."));
             for(let name in this._processes) {
-                this._processes[name].p.kill("SIGHUP");
+                this._processes[name].p.kill(kill_signal);
             }
         });
     }
