@@ -48,17 +48,17 @@ export class BufferedPrintLine {
     }
 
     public feed(chunk: Buffer) {
-        while(chunk.length > 0) {
+        while (chunk.length > 0) {
             let i;
-            for(i = 0; i < chunk.length; i++) {
-                if(chunk[i] == 0x0A) break;
+            for (i = 0; i < chunk.length; i++) {
+                if (chunk[i] == 0x0A) break;
             }
-            if(i == chunk.length) {
+            if (i == chunk.length) {
                 this._buffer = Buffer.concat([this._buffer, chunk]);
                 break;
             } else {
                 let line = Buffer.concat([this._buffer, chunk.slice(0, i)]).toString("utf8");
-                if(line.trim().length >= 0) {
+                if (line.trim().length >= 0) {
                     this._logger.logMessage(this._prefix + line);
                 }
                 chunk = chunk.slice(i + 1);
@@ -69,7 +69,7 @@ export class BufferedPrintLine {
 };
 
 export class ProcessManager {
-    private _processes: { [ name: string ] : { p: ChildProcess } };
+    private _processes: { [name: string]: { p: ChildProcess } };
     private _logger: Logger;
 
     constructor(logger: Logger) {
@@ -77,28 +77,28 @@ export class ProcessManager {
         this._logger = logger;
 
         let kill_signal = "SIGHUP";
-        if(process.platform == "win32") {
+        if (process.platform == "win32") {
             // Windows doesn't support SIGHUP
             kill_signal = "SIGINT";
         }
 
         process.on('SIGHUP', () => {
             this._logger.logMessage(this._logger.colorMain("SIGHUP received, broadcasting to processes."));
-            for(let name in this._processes) {
+            for (let name in this._processes) {
                 this._processes[name].p.kill(kill_signal);
             }
         });
 
         process.on('SIGTERM', () => {
             this._logger.logMessage(this._logger.colorMain("SIGTERM received, broadcasting to processes."));
-            for(let name in this._processes) {
+            for (let name in this._processes) {
                 this._processes[name].p.kill(kill_signal);
             }
         });
 
         process.on('SIGINT', () => {
             this._logger.logMessage(this._logger.colorMain("SIGINT received, broadcasting to processes."));
-            for(let name in this._processes) {
+            for (let name in this._processes) {
                 this._processes[name].p.kill(kill_signal);
             }
         });
@@ -106,16 +106,25 @@ export class ProcessManager {
 
     public launchProcess(name: string, cmd: string, args: string[]) {
         let p = spawn(cmd, args, {
-            stdio: [ 'ignore', 'pipe', 'pipe' ]
+            stdio: ['ignore', 'pipe', 'pipe']
         });
         let prefixMain = this._logger.colorMain('(' + name + ') ');
         let prefixStdout = this._logger.colorStdout('(' + name + ') ');
         let prefixStderr = this._logger.colorStderr('(' + name + ') ');
+        this._logger.logMessage(prefixMain + 'launched');
         p.on('error', (err) => {
             this._logger.logMessage(prefixMain + 'Error: ' + err.toString());
         });
         p.on('close', (code, signal) => {
-            this._logger.logMessage(prefixMain + 'terminated with code ' + code + ' signal ' + signal);
+            if (code != null && signal != null) {
+                this._logger.logMessage(prefixMain + 'terminated with code ' + code + ' signal ' + signal);
+            } else if (code != null) {
+                this._logger.logMessage(prefixMain + 'terminated with code ' + code);
+            } else if (signal != null) {
+                this._logger.logMessage(prefixMain + 'terminated with signal ' + signal);
+            } else {
+                this._logger.logMessage(prefixMain + 'terminated');
+            }
             delete this._processes[name];
         });
         let print_stdout = new BufferedPrintLine(this._logger, prefixStdout);

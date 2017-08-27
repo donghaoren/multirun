@@ -1,16 +1,17 @@
 {
   "name": "multirun",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "description": "Run multiple processes",
   "main": "multirun.js",
   "scripts": {
-    "build": "tsc multirun-npm.ts utils.ts",
+    "build": "tsc multirun.ts utils.ts",
+    "watch": "tsc -w multirun.ts utils.ts",
+    "test": "node multirun.js test/multirun.json",
     "prepublish": "npm run build"
   },
   "readme": "README.md",
   "bin": {
-    "multirun": "./multirun.js",
-    "multirun-npm": "./multirun-npm.js"
+    "multirun": "./multirun.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
   },
   "homepage": "https://github.com/donghaoren/multirun#readme",
   "devDependencies": {
-    "@types/node": "^7.0.0",
-    "typescript": "^2.1.5"
+    "@types/node": "^8.0.0",
+    "typescript": "^2.4.0"
   }
 }
