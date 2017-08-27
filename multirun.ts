@@ -15,7 +15,11 @@ let manager = new ProcessManager(logger);
 
 if (process.argv[2] == "--npm") {
     for (let name of process.argv.slice(3)) {
-        manager.launchProcess(name, "npm", ["run", name]);
+        if (process.platform == "win32") {
+            manager.launchProcess(name, "npm.cmd", ["run", name]);
+        } else {
+            manager.launchProcess(name, "npm", ["run", name]);
+        }
     }
 } else {
     let configFile = "multirun.json";

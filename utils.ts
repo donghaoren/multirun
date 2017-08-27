@@ -1,5 +1,4 @@
 import { spawn, ChildProcess } from "child_process";
-import * as tty from "tty";
 
 let Reset = "\x1b[0m";
 let Bright = "\x1b[1m";
