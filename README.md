@@ -6,7 +6,44 @@ Install
 
     npm install multirun
 
-Usage
+Module usage
+----
+
+Import the module:
+
+    const multirun = require("multirun");
+
+Run a single shell command:
+
+    multirun.shell("ls -lh")
+
+Run a command, promise, or a list of them in parallel:
+
+    // If input is a string, run as shell command
+    multirun.run("ls -lh");
+
+    // If input is a function, run the function to return a promise.
+    let fs = require("fs-extra")
+    multirun.run(() => fs.mkdirs("dir"))
+
+    // If input is an array, run all items in parallel.
+    multirun.run(["ls -lh", "ps ux"]);
+
+Run a set of commands sequentially:
+
+    multirun.sequence([ "ls -lh", "ps ux" ])
+
+Run commands from a dictionary-like object sequentially:
+
+    var DEFS = {
+        name1: "ls -lh",
+        name2: "ps ux",
+        name3: () => fs.mkdirs("dir")
+    };
+    var prefix = "My Print Prefix";
+    multirun.runCommands(DEFS, [ name1, name2, name3 ], prefix)
+
+Commandline Usage
 ----
 
 ## Run multiple npm commands simultaneously

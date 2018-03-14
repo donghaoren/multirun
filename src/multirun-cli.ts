@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { Logger, ProcessManager } from "./utils";
+import { ProcessManager } from "./utils";
 import * as fs from "fs";
 
 interface MultirunConfigFile {
@@ -10,8 +10,7 @@ interface MultirunConfigFile {
     }[];
 }
 
-let logger = new Logger();
-let manager = new ProcessManager(logger);
+let manager = new ProcessManager();
 
 if (process.argv[2] == "--npm") {
     for (let name of process.argv.slice(3)) {
@@ -30,7 +29,7 @@ if (process.argv[2] == "--npm") {
     try {
         config = JSON.parse(fs.readFileSync(configFile, "utf-8"));
     } catch (e) {
-        logger.logMessage(`Cannot load config file '${configFile}'`);
+        manager.logMessage(`Cannot load config file '${configFile}'`);
         process.exit(-1);
     }
     if (config.configs.length > 0) {
@@ -38,7 +37,7 @@ if (process.argv[2] == "--npm") {
         let nameToRun = process.argv[3] || defaultName;
         let item = config.configs.filter(x => x.name == nameToRun)[0];
         if (!item) {
-            logger.logMessage(`Config '${nameToRun}' is undefined`);
+            manager.logMessage(`Config '${nameToRun}' is undefined`);
             process.exit(-1);
         }
         for (let command in item.commands) {
@@ -48,7 +47,7 @@ if (process.argv[2] == "--npm") {
             }
         }
     } else {
-        logger.logMessage("Nothing to run");
+        manager.logMessage("Nothing to run");
         process.exit(-1);
     }
 }

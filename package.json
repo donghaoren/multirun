@@ -1,17 +1,16 @@
 {
   "name": "multirun",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Run multiple processes",
-  "main": "multirun.js",
+  "main": "./dist/multirun.js",
   "scripts": {
-    "build": "tsc multirun.ts utils.ts",
-    "watch": "tsc -w multirun.ts utils.ts",
-    "test": "node multirun.js test/multirun.json",
+    "build": "tsc -p .",
+    "watch": "tsc -p . -w",
     "prepublish": "npm run build"
   },
   "readme": "README.md",
   "bin": {
-    "multirun": "./multirun.js"
+    "multirun": "./dist/multirun-cli.js"
   },
   "repository": {
     "type": "git",
