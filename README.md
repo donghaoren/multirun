@@ -1,33 +1,35 @@
-multirun: Run multiple processes simultaneously
+multirun: A simple task runner for your projects
 ====
+
+multirun is a simple task runner for building projects.
 
 Install
 ----
 
     npm install multirun
 
-Module usage
+Usage
 ----
 
 Import the module:
 
     const multirun = require("multirun");
 
-Run a single shell command:
+Run a shell command:
 
-    multirun.shell("ls -lh")
+    multirun.run("ls -lh")
 
-Run a command, promise, or a list of them in parallel:
+Run a JavaScript task. The expected input is a function that returns a Promise:
 
-    // If input is a string, run as shell command
-    multirun.run("ls -lh");
-
-    // If input is a function, run the function to return a promise.
     let fs = require("fs-extra")
     multirun.run(() => fs.mkdirs("dir"))
 
+Run a list of tasks sequentially:
+
     // If input is an array, run all items in sequentially.
     multirun.run(["ls -lh", "ps ux"]);
+
+Run a set of tasks in parallel:
 
     // If input is an dict-like object, run all items in parallel.
     multirun.run({
@@ -35,9 +37,18 @@ Run a command, promise, or a list of them in parallel:
         ps: "ps ux"
     });
 
-Run a set of commands sequentially:
+multirun can run a mixture of sequential and parallel tasks:
 
-    multirun.sequence([ "ls -lh", "ps ux" ])
+    // Run task1, then task2s1 and task2s2 in parallel, then task3.
+    multirun.run([
+        "echo 'Task1'",
+        {
+            s1: "echo 'Task2s1'",
+            s2: "echo 'Task2s2'",
+        }
+        "echo 'Task3'"
+    ]);
+
 
 License
 ----

@@ -1,3 +1,6 @@
 *.ts
+.travis.yml
+yarn.lock
 src/
+test/
 tsconfig.json

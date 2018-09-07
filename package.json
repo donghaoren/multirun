@@ -1,11 +1,12 @@
 {
   "name": "multirun",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Run multiple processes",
   "main": "./dist/multirun.js",
   "scripts": {
     "build": "tsc -p .",
     "watch": "tsc -p . -w",
+    "test": "mocha",
     "prepublish": "yarn run build"
   },
   "readme": "README.md",
@@ -21,9 +22,7 @@
   "homepage": "https://github.com/donghaoren/multirun#readme",
   "devDependencies": {
     "@types/node": "^8.0.0",
-    "typescript": "^2.4.0"
-  },
-  "dependencies": {
+    "typescript": "^2.4.0",
     "mocha": "^5.2.0"
   }
 }
