@@ -1,17 +1,14 @@
 {
   "name": "multirun",
-  "version": "2.0.0",
+  "version": "3.0.1",
   "description": "Run multiple processes",
   "main": "./dist/multirun.js",
   "scripts": {
     "build": "tsc -p .",
     "watch": "tsc -p . -w",
-    "prepublish": "npm run build"
+    "prepublish": "yarn run build"
   },
   "readme": "README.md",
-  "bin": {
-    "multirun": "./dist/multirun-cli.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/donghaoren/multirun.git"
@@ -25,5 +22,8 @@
   "devDependencies": {
     "@types/node": "^8.0.0",
     "typescript": "^2.4.0"
+  },
+  "dependencies": {
+    "mocha": "^5.2.0"
   }
 }

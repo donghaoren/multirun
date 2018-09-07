@@ -1,42 +1,41 @@
-// The multirun module
-
 import { ProcessManager } from "./utils";
 
-let manager = new ProcessManager();
+// Main process manager
+const manager = new ProcessManager();
 
-export function shell(command: string) {
-    return manager.launchProcess(null, command);
+/**
+ * Launch a shell command, return a Promise
+ * @param command a shell command to launch
+ */
+export function shell(command: string, name: string = null) {
+    return manager.launchProcess(name, command);
 }
 
-// Command:
-// string: single shell command
-// () => Promise<void>: custom command
-// array of command: run them in parallel
-export function run(command: any): Promise<void> {
+/**
+ * Run a command and return a Promise
+ * @param command
+ * string: shell command
+ * Array<Command>: run the array of commands sequentially
+ * { name: Command, ... }: run the dict of commands in parallel
+ */
+export function run(command: any, name: string = null): Promise<void> {
     if (typeof (command) == "string") {
-        return shell(command);
-    } else if (command instanceof Array) {
-        return Promise.all(command.map(run)).then(() => { });
-    } else {
+        return shell(command, name);
+    } else if (command instanceof Function) {
         return command();
+    } else if (command instanceof Array) {
+        return sequence(command);
+    } else {
+        return Promise.all(Object.keys(command).map(key => run(command[key], key))).then(() => { });
     }
 }
 
+/**
+ * Run a list of commands sequentially
+ * @param commands commands
+ */
 export async function sequence(commands: any[]) {
     for (let cmd of commands) {
         await run(cmd);
     }
-}
-
-export async function runCommands(commands: { [name: string]: any }, sequence: string[], prefix: string = "multirun") {
-    try {
-        for (let name of sequence) {
-            manager.logMessage(prefix + ": " + name, "message");
-            await run(commands[name]);
-        }
-    } catch (e) {
-        manager.logMessage(prefix + ": Error: " + e.message, "fail");
-        return;
-    }
-    manager.logMessage(prefix + ": Success.", "message");
 }

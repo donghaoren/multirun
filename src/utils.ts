@@ -1,22 +1,22 @@
-import { spawn, ChildProcess, exec } from "child_process";
+import { spawn, ChildProcess } from "child_process";
 import { Transform } from "stream";
 
 // Color commands
-var Reset = "\x1b[0m";
-var Bright = "\x1b[1m";
-var Dim = "\x1b[2m";
-var Underscore = "\x1b[4m";
-var Blink = "\x1b[5m";
-var Reverse = "\x1b[7m";
-var Hidden = "\x1b[8m";
-var FgBlack = "\x1b[30m";
-var FgRed = "\x1b[31m";
-var FgGreen = "\x1b[32m";
-var FgYellow = "\x1b[33m";
-var FgBlue = "\x1b[34m";
-var FgMagenta = "\x1b[35m";
-var FgCyan = "\x1b[36m";
-var FgWhite = "\x1b[37m";
+const Reset = "\x1b[0m";
+const Bright = "\x1b[1m";
+const Dim = "\x1b[2m";
+const Underscore = "\x1b[4m";
+const Blink = "\x1b[5m";
+const Reverse = "\x1b[7m";
+const Hidden = "\x1b[8m";
+const FgBlack = "\x1b[30m";
+const FgRed = "\x1b[31m";
+const FgGreen = "\x1b[32m";
+const FgYellow = "\x1b[33m";
+const FgBlue = "\x1b[34m";
+const FgMagenta = "\x1b[35m";
+const FgCyan = "\x1b[36m";
+const FgWhite = "\x1b[37m";
 
 function color(str: string, name: string) {
     if (!process.stdout.isTTY) {
@@ -43,7 +43,7 @@ export class PrefixTransform extends Transform {
 
     constructor(prefix: string) {
         super();
-        this.prefix = new Buffer(prefix, "utf-8");
+        this.prefix = Buffer.from(prefix, "utf-8");
     }
     processLine(line: Buffer) {
         return Buffer.concat([this.prefix, line]);
@@ -118,6 +118,9 @@ export class ProcessManager {
                 this._processes[name].p.kill(kill_signal);
             }
         });
+
+        process.stdout.setMaxListeners(1000);
+        process.stdin.setMaxListeners(1000);
     }
 
     public launchProcess(name: string, cmd: string, args: string[] = null): Promise<void> {
