@@ -1,3 +1,10 @@
 language: node_js
 node_js:
-    - "8"
+- '8'
+deploy:
+  on:
+    tags: true
+  provider: npm
+  email: "donghao.ren+npm@gmail.com"
+  api_key:
+    secure: m6HRNMelBolwgZpwNEr2+g1AMtnnajOiy8CjG4X6sggvrnx9ARszYZJl9mpjq8/4u7SwBdTN3sXZuHfgQ3FWIB6xuz5kxmgQDrVR19s3BXLwvGfUNQiCoqJSn15i4L6QjjZARUMalwzweDoEYTrolsjKlsBU0K+WqcKkz0vA4OAzjyDa8dmkcZmcv1SrmCrHvNzGlEyp4bJYQ3JzTtn6AEP0Nix/qGJ8ad3j6ftOR4lDe/vFWsdjUj9USbxm2HbXQwhEYeeX08vx4KCJQl3Ffty8JrQg2t+Uo/bWbSexLSr18bPXSH/jDH4NzApDZ+Is8qr1hMupc0fHx664l7+wCEr8938tJKVjNBR4fMk4l4NEbYp0zPcejYU3Gux/MYhaAtbsDMZR2pkxe4L54QHHJNf7uiaf/Kzy80B0NCczbSV+cfWqp0QBofTXwE+p4/3Mn45nktg0PbrJ9X/qSRFRWlSNHw+7rzEMlkT1dvUnuX2WeRq8znCj2m29OmrFuF0HFiChctFwozhX1a1sx80aZTa4rrJIi6K2nGF+kn5OSipXdT8DnKYKelOiUVIKFmTYHyua6soh0cgUg2PuMM5CJeGP+eKemjyIe8ID6InoZWKoRk/YJWGqq7aP+pKcWVBYnV7nh1f7Gb+wv8+71q/lHR6rZLyfKeevjynJBxIDtdY=
