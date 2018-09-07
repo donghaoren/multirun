@@ -1,3 +1,5 @@
+![Travis](https://travis-ci.org/donghaoren/multirun.svg?branch=master)
+
 multirun: A simple task runner for your projects
 ====
 
