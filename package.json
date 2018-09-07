@@ -6,8 +6,9 @@
   "scripts": {
     "build": "tsc -p .",
     "watch": "tsc -p . -w",
-    "test": "mocha",
-    "prepublish": "yarn && yarn run build"
+    "pretest": "yarn run build",
+    "prepare": "yarn run build",
+    "test": "mocha"
   },
   "readme": "README.md",
   "repository": {
